@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AboutAppActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="25dp"
+        android:text="KAS ZS/2019 \n\nProjekt do předmětu Komprimace dat a krytologie. Projekt je zaměřen na vytvoření a znázornění zašifrované komunikace pomocí algoritmu RSA. \n\nPro přenos klíčů se využívá emailové komunikace, jelikož se jedná pouze o simulaci a hlavní důraz je kladen na samotný algoritmus RSA. \n\n Autor: Bc. Martin Kopřiva"/>
+
+
+</RelativeLayout>
