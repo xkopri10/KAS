@@ -1,6 +1,7 @@
 package com.example.kas_project;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.widget.NestedScrollView;
 
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -12,6 +13,9 @@ public class EncryptActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_encrypt);
+
+        NestedScrollView view = (NestedScrollView) findViewById(R.id.nestedscrollviewEncrypt);
+        view.setNestedScrollingEnabled(true);
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

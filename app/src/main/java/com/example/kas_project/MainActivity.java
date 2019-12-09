@@ -1,6 +1,7 @@
 package com.example.kas_project;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.widget.NestedScrollView;
 
 import android.content.Intent;
 import android.os.Bundle;
