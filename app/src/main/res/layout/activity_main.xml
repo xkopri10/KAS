@@ -11,16 +11,33 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            android:text="Generate public and private key and send them to zour friend by email."/>
+
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/generate_and_send_button"
-            android:text="Generate keys and send them"
+            android:text="Generate keys"
             android:background="@drawable/button_background"
-            android:textColor="@color/colorBlack"
-            android:layout_marginTop="30dp"
+            android:textColor="@color/colorWhite"
+            android:layout_marginTop="5dp"
             android:layout_marginStart="25dp"
             android:layout_marginEnd="25dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            android:text="Ecrypt message and send the messsage friend who send zou keys."/>
+
 
         <Button
             android:layout_width="match_parent"
@@ -28,21 +45,39 @@
             android:id="@+id/encrypt_button"
             android:text="Encrypt"
             android:background="@drawable/button_background"
-            android:textColor="@color/colorBlack"
-            android:layout_marginTop="30dp"
+            android:textColor="@color/colorWhite"
+            android:layout_marginTop="5dp"
             android:layout_marginStart="25dp"
             android:layout_marginEnd="25dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            android:text="Decrypt message by your friend."/>
+
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/decrypt_button"
             android:text="Decrypt"
-            android:textColor="@color/colorBlack"
+            android:textColor="@color/colorWhite"
             android:background="@drawable/button_background"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="5dp"
             android:layout_marginStart="25dp"
             android:layout_marginEnd="25dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            android:text="Information about app."/>
+
 
         <Button
             android:layout_width="match_parent"
@@ -50,8 +85,8 @@
             android:id="@+id/about_app_button"
             android:text="About app"
             android:background="@drawable/button_background"
-            android:textColor="@color/colorBlack"
-            android:layout_marginTop="30dp"
+            android:textColor="@color/colorWhite"
+            android:layout_marginTop="5dp"
             android:layout_marginStart="25dp"
             android:layout_marginEnd="25dp"/>
 

@@ -1,6 +1,7 @@
 package com.example.kas_project;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.widget.NestedScrollView;
 
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -13,6 +14,9 @@ public class AboutAppActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_app);
+
+        NestedScrollView view = (NestedScrollView) findViewById(R.id.nestedscrollview);
+        view.setNestedScrollingEnabled(true);
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

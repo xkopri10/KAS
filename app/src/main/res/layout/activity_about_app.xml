@@ -1,16 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".AboutAppActivity">
 
-    <TextView
+    <androidx.core.widget.NestedScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/nestedscrollview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="25dp"
-        android:text="KAS ZS/2019 \n\nProjekt do předmětu Komprimace dat a krytologie. Projekt je zaměřen na vytvoření a znázornění zašifrované komunikace pomocí algoritmu RSA. \n\nPro přenos klíčů se využívá emailové komunikace, jelikož se jedná pouze o simulaci a hlavní důraz je kladen na samotný algoritmus RSA. \n\n Autor: Bc. Martin Kopřiva"/>
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        tools:context=".AboutAppActivity">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-</RelativeLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:layout_marginEnd="25dp"
+                android:layout_marginStart="25dp"
+                android:text="KAS ZS/2019 \n\nProjekt do předmětu Komprimace dat a krytologie. Projekt je zaměřen na vytvoření a znázornění zašifrované komunikace pomocí algoritmu RSA. \n\nPro přenos klíčů se využívá emailové komunikace, jelikož se jedná pouze o simulaci a hlavní důraz je kladen na samotný algoritmus RSA. \n\n Autor: Bc. Martin Kopřiva"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorGrey"
+                android:layout_margin="20dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Princip fungování"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginEnd="25dp"
+                android:layout_marginStart="25dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="25dp"
+                android:layout_marginStart="25dp"
+                android:layout_marginBottom="25dp"
+                android:text="Chci odeslat zprávu:\n\n1.    Příjemce mi musí zaslat PUBLIC KEY\n2.    Odesílate zprávy zašifruje zprávu pomocí příiemcova PUBLIC KEY, který mu odeslal.\n3.    Příjemce zprávu obdrží a pomocí svého PRIVATE KEY, který generoval zároveň se svým PUBLIC KEY odšifruje zprávu.\n\nChci přijmout od někoho zprávu.\n\n1.    Já jako příjemce si vygeneruji PUBLIC KEY a PRIVATE KEY a pošlu odesílateli svůj PUBLIC KEY.\n2.    Odesílatel zašifruje zprávu pomocí mého PUBLIC KEY a pošle mi zprávu.\n3.     Já jako příjemce ji dešifruji pomocí svého PRIVATE KEY."/>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
