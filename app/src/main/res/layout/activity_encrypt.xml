@@ -50,6 +50,7 @@
                 android:text="N:"/>
 
             <EditText
+                android:id="@+id/n"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="25dp"
@@ -70,6 +71,7 @@
                 android:text="E:"/>
 
             <EditText
+                android:id="@+id/e"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="25dp"
