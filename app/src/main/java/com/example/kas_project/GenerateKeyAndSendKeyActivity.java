@@ -3,6 +3,7 @@ package com.example.kas_project;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -25,6 +26,17 @@ public class GenerateKeyAndSendKeyActivity extends AppCompatActivity {
     private Button sendKeysButton;
 
 
+    private BigInteger p;
+    private BigInteger q;
+    private BigInteger n;
+    private BigInteger phiN;
+    private BigInteger e;
+    private BigInteger d;
+
+    private BigInteger cipherText;
+    private BigInteger encryptedText;
+    private BigInteger decryptedText;
+    private String messageBackToString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,14 +59,173 @@ public class GenerateKeyAndSendKeyActivity extends AppCompatActivity {
         generateAllButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String primeNumberTextP = generatePrimeNumber(128).toString();
+                p = generatePrimeNumber(128);
+                String primeNumberTextP = p.toString();
                 pTextView.setText(primeNumberTextP);
 
-                String primeNumberTextQ = generatePrimeNumber(128).toString();
+                q = generatePrimeNumber(128);
+                String primeNumberTextQ = q.toString();
                 qTextView.setText(primeNumberTextQ);
+
+                n = calculateN(p, q);
+                String nTextN = n.toString();
+                nTextViewPrivate.setText(nTextN);
+                nTextViewPublic.setText(nTextN);
+
+                phiN = calculateEulerFunctionPhi(p, q);
+                Log.e("PhiN", phiN.toString());
+
+                e = calculateE(phiN);
+                String eTextE = e.toString();
+                eTextView.setText(eTextE);
+                Log.e("e", eTextE);
+
+                d = calculateD(e, phiN)[1];
+                String dTextD = d.toString();
+                dTextView.setText(dTextD);
+
+                cipherText = stringMessageToAlphabetValue("nevim co se stalo ale je to dost na ho");
+                Log.e("Cipher TEXT", cipherText.toString());
+
+                encryptedText = encryptMessage(cipherText, e, n);
+                Log.e("Encrypted TEXT", encryptedText.toString());
+
+                decryptedText = decryptMessage(encryptedText, d, n);
+                Log.e("Decrypted TEXT", decryptedText.toString());
+
+                messageBackToString = convertBigIntegerMessageBackToString(decryptedText);
+                Log.e("Message back to TEXT", messageBackToString);
             }
         });
 
+    }
+
+    /**
+     * Method for encryption message.
+     * @param message = original message
+     * @param e = parameter E (part of public key)
+     * @param n = parameter N (part of public key
+     * @return - modPow = message(on exponent - e) mod n
+     */
+    private BigInteger encryptMessage(BigInteger message, BigInteger e, BigInteger n) {
+        return message.modPow(e, n);
+    }
+
+    /**
+     * Method for decryption message.s
+     * @param message = encrypted message
+     * @param d = parameter D (part of private key)
+     * @param n = parameter N (part of private key)
+     * @return - modPow = message(on exponent d) mod n
+     */
+    private BigInteger decryptMessage(BigInteger message, BigInteger d, BigInteger n) {
+        return message.modPow(d, n);
+    }
+
+    private BigInteger stringMessageToAlphabetValue(String message) {
+        message = message.toUpperCase();
+        String cipherString = "";
+        int i = 0;
+        while (i < message.length()) {
+            int character = (int) message.charAt(i);
+            cipherString = cipherString + character;
+            i++;
+        }
+        return new BigInteger(cipherString);
+    }
+
+    private String convertBigIntegerMessageBackToString(BigInteger message) {
+        String cipherString = message.toString();
+        int bla = cipherString.length();
+        String output = "";
+        Log.e("LENGTH of decrzpted message", String.valueOf(bla));
+        int i = 0;
+        while (i < (cipherString.length())) {
+            int asciiNumberOfLetter = Integer.parseInt(cipherString.substring(i, i+2));
+            char character = (char) asciiNumberOfLetter;
+            output = output + character;
+            i = i + 2;
+        }
+        return output;
+    }
+
+    /**
+     * Method for calculate parameter N - needed for public and private key
+     * @param p = prime number P
+     * @param q = prime number Q
+     * @return - multiply = is like p * q
+     */
+    private BigInteger calculateN(BigInteger p, BigInteger q) {
+        return p.multiply(q);
+    }
+
+    /**
+     * Method for calculate Euler function Phi
+     * @param p = prime number P
+     * @param q = prime number Q
+     * @return - subtract = calculate difference between p and 1 (n - 1) and (q - 1). Then the numbers are multiplied like (n - 1)*(q - 1)
+     */
+    private BigInteger calculateEulerFunctionPhi(BigInteger p, BigInteger q) {
+        return (p.subtract(BigInteger.ONE)).multiply((q.subtract(BigInteger.ONE)));
+    }
+
+    /**
+     * Recursive method for calculating GCD (greatest common divisor) = used in method calculateE
+     * @param number1 = will be E
+     * @param number2 = will be phiN
+     * @return number which is divided by another number. What I want is to get number 1 -> it means that these 2 numbers has common divisor 1
+     */
+    private BigInteger calculateGreatestCommonDivisor(BigInteger number1, BigInteger number2) {
+        if (number2.equals(BigInteger.ZERO)) {
+            return number1;
+        } else {
+            return calculateGreatestCommonDivisor(number2, number1.mod(number2));
+        }
+    }
+
+    /**
+     * Method for calculating E (part of public key) by finding Phi (which they are equals to 1)
+     * e = 256 bits because is comparing with Phi (it has 256b) with new random value.
+     * but it can be 128b too
+     * @param phiN = value of (n - 1)*(q - 1)
+     * @return -
+     */
+    private BigInteger calculateE(BigInteger phiN) {
+        Random random = new Random();
+        BigInteger e;
+        do {
+            e = new BigInteger(256, random);                                /* generate new bigInteger value - over the range 0 to (2^numBits – 1) */
+            while (e.min(phiN).equals(phiN)) {
+                e = new BigInteger(256, random);                            /* while phi is smaller than e ---> generate new E*/
+            }
+        } while (!calculateGreatestCommonDivisor(e, phiN).equals(BigInteger.ONE));  /* Do that UNTIL GCD is 1 */
+        return e;
+    }
+
+    /**
+     * Generate prime number about size bits in parameter
+     * @param bits = 128/256/512/1024 and so on
+     * @return prime number
+     */
+    private BigInteger generatePrimeNumber(int bits) {
+        Random randomNumber = new Random();
+        return BigInteger.probablePrime(bits, randomNumber);
+    }
+
+    /**
+     * Method for calculate parameter D (part of private key)
+     * @param number1
+     * @param number2
+     * @return
+     */
+    private BigInteger[] calculateD(BigInteger number1, BigInteger number2) {
+        if (number2.equals(BigInteger.ZERO)) {
+            return new BigInteger[] {
+                    number1, BigInteger.ONE, BigInteger.ZERO
+            };
+        }
+        BigInteger[] values = calculateD(number2, number1.mod(number2));
+        return new BigInteger[] {values[0], values[2], values[1].subtract(number1.divide(number2).multiply(values[2]))};
     }
 
     @Override
@@ -65,13 +236,5 @@ public class GenerateKeyAndSendKeyActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-    private BigInteger generatePrimeNumber(int bits) {
-        Random randomNumber = new Random();
-        BigInteger primeNumber = BigInteger.probablePrime(bits, randomNumber);
-        return primeNumber;
-    }
-
-
 
 }

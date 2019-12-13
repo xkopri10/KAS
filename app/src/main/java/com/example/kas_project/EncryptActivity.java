@@ -69,19 +69,6 @@ public class EncryptActivity extends AppCompatActivity {
         startActivity(Intent.createChooser(intent, "Choose an email client:"));
     }
 
-    private static int findPositionOfLetterInAlphabet(char inputLetter) {
-        int position;
-        if (inputLetter == ' '){
-            int asciiValueOfInputChar= (int)inputLetter;
-            position = asciiValueOfInputChar-5;
-        } else {
-            char inputLetterToLowerCase= Character.toLowerCase(inputLetter);
-            int asciiValueOfInputChar= (int)inputLetterToLowerCase;
-            position = asciiValueOfInputChar-96;
-        }
-        return position;
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int idItem = item.getItemId();

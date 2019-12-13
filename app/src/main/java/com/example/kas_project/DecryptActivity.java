@@ -10,7 +10,6 @@ import java.util.Objects;
 import java.math.BigInteger;
 import java.util.Random;
 
-
 public class DecryptActivity extends AppCompatActivity {
 
     @Override
@@ -30,7 +29,6 @@ public class DecryptActivity extends AppCompatActivity {
         Log.e("64: ", p1.toString());
         Log.e("128: ", p2.toString());
         Log.e("256: ", p4.toString());
-
     }
 
     @Override
@@ -42,7 +40,7 @@ public class DecryptActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public static BigInteger largePrime(int bits) {
+    private static BigInteger largePrime(int bits) {
         Random randomInteger = new Random();
         BigInteger largePrime = BigInteger.probablePrime(bits, randomInteger);
         return largePrime;
