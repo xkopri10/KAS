@@ -9,19 +9,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AboutAppActivity"
+        <activity android:name=".activities.AboutAppActivity"
             android:screenOrientation="portrait"
             android:label="About application"/>
-        <activity android:name=".DecryptActivity"
-            android:screenOrientation="portrait"
-            android:label="Decryption"/>
-        <activity android:name=".EncryptActivity"
+        <activity android:name=".activities.EncryptActivity"
             android:screenOrientation="portrait"
             android:label="Encryption"/>
-        <activity android:name=".GenerateKeyAndSendKeyActivity"
+        <activity android:name=".activities.GenerateKeyAndSendKeyActivity"
             android:screenOrientation="portrait"
             android:label="Generate key"/>
-        <activity android:name=".MainActivity"
+        <activity android:name=".activities.MainActivity"
             android:label="RSA algorithm"
             android:screenOrientation="portrait">
             <intent-filter>

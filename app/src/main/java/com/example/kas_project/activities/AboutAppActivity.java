@@ -1,10 +1,12 @@
-package com.example.kas_project;
+package com.example.kas_project.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.NestedScrollView;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+
+import com.example.kas_project.R;
 
 import java.util.Objects;
 
