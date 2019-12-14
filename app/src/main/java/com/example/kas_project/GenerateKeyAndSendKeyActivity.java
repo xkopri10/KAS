@@ -2,11 +2,13 @@ package com.example.kas_project;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.math.BigInteger;
@@ -24,6 +26,7 @@ public class GenerateKeyAndSendKeyActivity extends AppCompatActivity {
     private TextView dTextView;
     private Button generateAllButton;
     private Button sendKeysButton;
+    private EditText emailToEditText;
 
 
     private BigInteger p;
@@ -52,6 +55,7 @@ public class GenerateKeyAndSendKeyActivity extends AppCompatActivity {
         nTextViewPrivate = findViewById(R.id.generatedNprivate);
         eTextView = findViewById(R.id.generatedE);
         dTextView = findViewById(R.id.generatedD);
+        emailToEditText = findViewById(R.id.sendtoedittextGenerateKeys);
 
         generateAllButton = findViewById(R.id.generateAllButton);
         sendKeysButton = findViewById(R.id.sendbuttonGeneratedKeys);
@@ -80,7 +84,7 @@ public class GenerateKeyAndSendKeyActivity extends AppCompatActivity {
                 eTextView.setText(eTextE);
                 Log.e("e", eTextE);
 
-                d = calculateD(e, phiN)[1];
+                d = calculateDWithExtEuclideanAlgorihm(e, phiN)[1];
                 String dTextD = d.toString();
                 dTextView.setText(dTextD);
 
@@ -98,7 +102,35 @@ public class GenerateKeyAndSendKeyActivity extends AppCompatActivity {
             }
         });
 
+        sendKeysButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendEmail();
+            }
+        });
+
     }
+
+    private String prepareKeysForSend() {
+        return "Parameter n:\n" + nTextViewPublic.getText().toString() + "\n\n" + "Parameter e:\n" + eTextView.getText().toString();
+    }
+
+
+    private void sendEmail() {
+        String recipientList = emailToEditText.getText().toString();
+        String[] recipients = recipientList.split(",");
+        String subject = "Public Key";
+        String message = prepareKeysForSend();
+
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.putExtra(Intent.EXTRA_EMAIL, recipients);
+        intent.putExtra(Intent.EXTRA_SUBJECT, subject);
+        intent.putExtra(Intent.EXTRA_TEXT, message);
+
+        intent.setType("message/rfc822");
+        startActivity(Intent.createChooser(intent, "Choose an email client:"));
+    }
+
 
     /**
      * Method for encryption message.
@@ -122,6 +154,11 @@ public class GenerateKeyAndSendKeyActivity extends AppCompatActivity {
         return message.modPow(d, n);
     }
 
+    /**
+     * Method for converting Text Message (original) to BigInteger number for encrypting.
+     * @param message = message in String - message before encrypting
+     * @return : BigInteger number where every 2 numbers correspond to decimal letter code in ASCII
+     */
     private BigInteger stringMessageToAlphabetValue(String message) {
         message = message.toUpperCase();
         String cipherString = "";
@@ -134,6 +171,14 @@ public class GenerateKeyAndSendKeyActivity extends AppCompatActivity {
         return new BigInteger(cipherString);
     }
 
+    /**
+     * Method for converting number to letter helped with ASCII
+     * every 2 numbers correspond to decimal letter code in ASCII (that"s why i+2)
+     * NOT ALLOWED characters like: {,},|,~. Because their code is 3 three-digit
+     *
+     * @param message = message is in BigInteger number
+     * @return : text decrypted message
+     */
     private String convertBigIntegerMessageBackToString(BigInteger message) {
         String cipherString = message.toString();
         int bla = cipherString.length();
@@ -214,18 +259,25 @@ public class GenerateKeyAndSendKeyActivity extends AppCompatActivity {
 
     /**
      * Method for calculate parameter D (part of private key)
-     * @param number1
-     * @param number2
-     * @return
+     * For calculation D I was inspired here: https://crypto.stackexchange.com/questions/5889/calculating-rsa-private-exponent-when-given-public-exponent-and-the-modulus-fact
+     * Method calculate D with help Extended Euclidean algorithm (ran backwards than normal)
+     * Mathematical expression is: ax + by = gcd(a,b) where a = e and b = phiN - we need it for to solve: ex ≡ 1 (mod φ(n)) where x = d
+     *
+     * @param e = e
+     * @param phi = phi
+     * @return : [d, p, q] where d = gcd(a,b) and ap + bq = d
      */
-    private BigInteger[] calculateD(BigInteger number1, BigInteger number2) {
-        if (number2.equals(BigInteger.ZERO)) {
+    private BigInteger[] calculateDWithExtEuclideanAlgorihm(BigInteger e, BigInteger phi) {
+        if (phi.equals(BigInteger.ZERO)) {
             return new BigInteger[] {
-                    number1, BigInteger.ONE, BigInteger.ZERO
+                    e, BigInteger.ONE, BigInteger.ZERO
             };
         }
-        BigInteger[] values = calculateD(number2, number1.mod(number2));
-        return new BigInteger[] {values[0], values[2], values[1].subtract(number1.divide(number2).multiply(values[2]))};
+        BigInteger[] values = calculateDWithExtEuclideanAlgorihm(phi, e.mod(phi));
+        return new BigInteger[] {
+                values[0],                                                  // d
+                values[2],                                                  // p
+                values[1].subtract(e.divide(phi).multiply(values[2]))};     // q
     }
 
     @Override
