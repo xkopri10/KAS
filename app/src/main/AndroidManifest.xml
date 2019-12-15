@@ -4,9 +4,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_launcher_key"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_launcher_key_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activities.AboutAppActivity"
@@ -17,7 +17,7 @@
             android:label="Encryption"/>
         <activity android:name=".activities.GenerateKeyAndSendKeyActivity"
             android:screenOrientation="portrait"
-            android:label="Generate key"/>
+            android:label="Generation &amp; Decryption"/>
         <activity android:name=".activities.MainActivity"
             android:label="RSA algorithm"
             android:screenOrientation="portrait">

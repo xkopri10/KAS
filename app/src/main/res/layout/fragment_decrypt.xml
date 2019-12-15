@@ -14,6 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="Paste your private key:"
+            android:textStyle="bold"
             android:layout_marginEnd="25dp"
             android:layout_marginTop="25dp"
             android:layout_marginStart="25dp"/>
@@ -67,6 +68,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="Encrypted message:"
+            android:textStyle="bold"
             android:layout_marginEnd="25dp"
             android:layout_marginTop="25dp"
             android:layout_marginStart="25dp"/>
@@ -84,6 +86,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="Decrypted message:"
+            android:textStyle="bold"
             android:layout_marginEnd="25dp"
             android:layout_marginTop="25dp"
             android:layout_marginStart="25dp"/>
@@ -94,6 +97,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="25dp"
             android:layout_marginStart="25dp"
+            android:layout_marginBottom="20dp"
             android:gravity="top"/>
 
         <Button

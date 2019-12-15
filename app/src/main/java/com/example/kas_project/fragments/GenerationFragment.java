@@ -45,11 +45,6 @@ public class GenerationFragment extends Fragment {
     private BigInteger e;
     private BigInteger d;
 
-    private BigInteger cipherText;
-    private BigInteger encryptedText;
-    private BigInteger decryptedText;
-    private String messageBackToString;
-
     private Boolean generated;
 
     public GenerationFragment() {
@@ -79,11 +74,11 @@ public class GenerationFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 generated = true;
-                p = rsa.generatePrimeNumber(128);
+                p = rsa.generatePrimeNumber(256);
                 String primeNumberTextP = p.toString();
                 pTextView.setText(primeNumberTextP);
 
-                q = rsa.generatePrimeNumber(128);
+                q = rsa.generatePrimeNumber(256);
                 String primeNumberTextQ = q.toString();
                 qTextView.setText(primeNumberTextQ);
 
@@ -109,8 +104,11 @@ public class GenerationFragment extends Fragment {
         sendKeysButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!generated) {
+                if (!generated || emailToEditText.getText().toString().matches("")) {
                     Snackbar snackbar = Snackbar.make(view, "Some of parameters are not filled.", Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                } else if (p.equals(q)){
+                    Snackbar snackbar = Snackbar.make(view, "P = Q. Generate keys again.", Snackbar.LENGTH_LONG);
                     snackbar.show();
                 } else {
                     sendEmail();

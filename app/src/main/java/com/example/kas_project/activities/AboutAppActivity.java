@@ -8,6 +8,7 @@ import android.view.MenuItem;
 
 import com.example.kas_project.R;
 
+import java.math.BigInteger;
 import java.util.Objects;
 
 public class AboutAppActivity extends AppCompatActivity {
@@ -22,7 +23,6 @@ public class AboutAppActivity extends AppCompatActivity {
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
     }
 
     @Override

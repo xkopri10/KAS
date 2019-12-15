@@ -19,33 +19,72 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
+                android:textStyle="bold"
+                android:textSize="16sp"
                 android:layout_marginEnd="25dp"
                 android:layout_marginStart="25dp"
-                android:text="KAS ZS/2019 \n\nProjekt do předmětu Komprimace dat a krytologie. Projekt je zaměřen na vytvoření a znázornění zašifrované komunikace pomocí algoritmu RSA. \n\nPro přenos klíčů se využívá emailové komunikace, jelikož se jedná pouze o simulaci a hlavní důraz je kladen na samotný algoritmus RSA. \n\n Autor: Bc. Martin Kopřiva"/>
+                android:text="General information"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="25dp"
+                android:layout_marginStart="25dp"
+                android:text="Project to subject KAS ZS/2019 (Data Compression and Cryptology). The project is focused on creation and presentation of encrypted communication using RSA algorithm.\n\nEmail communication is used for key transmission because transmission is not the main goal of this project but the main focus is on the RSA algorithm itself.\n\nAuthor: Bc. Martin Kopřiva"/>
+
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/colorGrey"
+                android:background="@color/colorAccent"
                 android:layout_margin="20dp"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Princip fungování"
+                android:text="How it works (RSA)"
                 android:textStyle="bold"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 android:layout_marginBottom="10dp"
+                android:layout_marginEnd="25dp"
+                android:layout_marginStart="25dp"/>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="270dp"
+                android:src="@drawable/picture_rsa"
+                android:layout_marginEnd="25dp"
+                android:layout_marginStart="25dp"
+                android:scaleType="fitStart"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorAccent"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="25dp"
+                android:layout_marginStart="20dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="How to use this application"
+                android:textStyle="bold"
+                android:textSize="16sp"
                 android:layout_marginEnd="25dp"
                 android:layout_marginStart="25dp"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:layout_marginEnd="25dp"
                 android:layout_marginStart="25dp"
                 android:layout_marginBottom="25dp"
-                android:text="Chci odeslat zprávu:\n\n1.    Příjemce mi musí zaslat PUBLIC KEY\n2.    Odesílate zprávy zašifruje zprávu pomocí příiemcova PUBLIC KEY, který mu odeslal.\n3.    Příjemce zprávu obdrží a pomocí svého PRIVATE KEY, který generoval zároveň se svým PUBLIC KEY odšifruje zprávu.\n\nChci přijmout od někoho zprávu.\n\n1.    Já jako příjemce si vygeneruji PUBLIC KEY a PRIVATE KEY a pošlu odesílateli svůj PUBLIC KEY.\n2.    Odesílatel zašifruje zprávu pomocí mého PUBLIC KEY a pošle mi zprávu.\n3.     Já jako příjemce ji dešifruji pomocí svého PRIVATE KEY."/>
+                android:text="Example:\n\nAlice wants to send message to Bob. Bob need to go to the section GENERATE KEYS &amp; DECRYPT and generate keys. The PUBLIC KEY send via email to Alice.\n\nNow Alice has Bob's PUBLIC KEY and she need to go to the ENCRYPT section. Here she fill parameters of Bob's PUBLIC KEY (n, e) and message. This encrypted message send to Bob via email.\n\nBob got email from Alice with encrypted message. So he is still in GENERATE KEYS &amp; DECRYPT but in DECRYPTION tab. He use his PRIVATE KEY (n, d) for decryption this message."/>
 
         </LinearLayout>
 

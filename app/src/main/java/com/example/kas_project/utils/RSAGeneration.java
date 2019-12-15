@@ -4,6 +4,7 @@ import android.util.Log;
 
 import java.math.BigInteger;
 import java.util.Random;
+import java.util.Scanner;
 
 public final class RSAGeneration {
 
@@ -56,17 +57,28 @@ public final class RSAGeneration {
      */
     public String convertBigIntegerMessageBackToString(BigInteger message) {
         String cipherString = message.toString();
-        int bla = cipherString.length();
+        int cipherLength = cipherString.length();
+
         String output = "";
-        Log.e("LENGTH of decrzpted message", String.valueOf(bla));
+        Log.e("LENGTH of decrzpted message", String.valueOf(cipherLength));
         int i = 0;
-        while (i < (cipherString.length())) {
-            int asciiNumberOfLetter = Integer.parseInt(cipherString.substring(i, i+2));
-            char character = (char) asciiNumberOfLetter;
-            output = output + character;
-            i = i + 2;
+
+        if (checkOddOrEvenNumber(cipherLength)) {
+            while (i < (cipherString.length())) {
+                int asciiNumberOfLetter = Integer.parseInt(cipherString.substring(i, i+2));
+                char character = (char) asciiNumberOfLetter;
+                output = output + character;
+                i = i + 2;
+            }
+        } else {
+            Log.e("WARNING:", "NUMBER IS ODD");
         }
+
         return output;
+    }
+
+    private Boolean checkOddOrEvenNumber(int textLength) {
+        return (textLength % 2 == 0);
     }
 
     /**
@@ -114,9 +126,9 @@ public final class RSAGeneration {
         Random random = new Random();
         BigInteger e;
         do {
-            e = new BigInteger(256, random);                                /* generate new bigInteger value - over the range 0 to (2^numBits – 1) */
+            e = new BigInteger(128, random);                                /* generate new bigInteger value - over the range 0 to (2^numBits – 1) */
             while (e.min(phiN).equals(phiN)) {
-                e = new BigInteger(256, random);                            /* while phi is smaller than e ---> generate new E*/
+                e = new BigInteger(128, random);                            /* while phi is smaller than e ---> generate new E*/
             }
         } while (!calculateGreatestCommonDivisor(e, phiN).equals(BigInteger.ONE));  /* Do that UNTIL GCD is 1 */
         return e;

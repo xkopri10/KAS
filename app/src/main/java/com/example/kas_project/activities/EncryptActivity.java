@@ -63,6 +63,7 @@ public class EncryptActivity extends AppCompatActivity {
                 if (editTextTo.getText().toString().matches("") ||
                         messageEditText.getText().toString().matches("") ||
                         eEditText.getText().toString().matches("") ||
+                        encrzptedMessage.getText().toString().matches("") ||
                         nEditText.getText().toString().matches("")) {
                     Snackbar snackbar = Snackbar.make(view, "Some of parameters are not filled.", Snackbar.LENGTH_LONG);
                     snackbar.show();
