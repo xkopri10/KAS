@@ -54,11 +54,13 @@ class PeopleDecryptionAdapter extends RecyclerView.Adapter<PeopleDecryptionAdapt
     public class ViewHolder extends RecyclerView.ViewHolder{
         public TextView email;
         public ImageButton imageButton;
+        public TextView noDataTextView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             email = itemView.findViewById(R.id.text01);
             imageButton = itemView.findViewById(R.id.imageButtonDelete);
+            noDataTextView = itemView.findViewById(R.id.noDataTextView);
         }
     }
 

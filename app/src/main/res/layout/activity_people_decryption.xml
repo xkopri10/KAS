@@ -11,4 +11,11 @@
         android:layout_height="match_parent"
         android:id="@+id/rec_view"/>
 
+    <TextView
+        android:id="@+id/noDataTextView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="150dp"
+        android:textAlignment="center" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
