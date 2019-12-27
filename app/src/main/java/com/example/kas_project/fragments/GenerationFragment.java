@@ -2,6 +2,7 @@ package com.example.kas_project.fragments;
 
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -15,11 +16,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.kas_project.R;
+import com.example.kas_project.database.ProfileKeysDatabaseGetter;
+import com.example.kas_project.models.ProfileKey;
 import com.example.kas_project.utils.RSAGeneration;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.math.BigInteger;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 /**
@@ -33,8 +38,7 @@ public class GenerationFragment extends Fragment {
     private TextView eTextView;
     private TextView nTextViewPrivate;
     private TextView dTextView;
-    private Button generateAllButton;
-    private Button sendKeysButton;
+    private Button generateAllButton, sendKeysButton, saveParametersButton;
     private EditText emailToEditText;
 
 
@@ -66,6 +70,7 @@ public class GenerationFragment extends Fragment {
         emailToEditText = rootView.findViewById(R.id.sendtoedittextGenerateKeys);
 
         generateAllButton = rootView.findViewById(R.id.generateAllButton);
+        saveParametersButton = rootView.findViewById(R.id.saveParametersButton);
         sendKeysButton = rootView.findViewById(R.id.sendbuttonGeneratedKeys);
 
         generated = false;
@@ -101,6 +106,24 @@ public class GenerationFragment extends Fragment {
             }
         });
 
+        saveParametersButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!generated || emailToEditText.getText().toString().matches("")) {
+                    Snackbar snackbar = Snackbar.make(view, "Some of parameters are not filled.", Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                } else if (p.equals(q)){
+                    Snackbar snackbar = Snackbar.make(view, "P = Q. Generate keys again.", Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                } else if (isEmailValid(emailToEditText.getText().toString())){
+                    saveParameters();
+                } else {
+                    Snackbar snackbar = Snackbar.make(view, "Email address is not valid", Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+            }
+        });
+
         sendKeysButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -110,8 +133,11 @@ public class GenerationFragment extends Fragment {
                 } else if (p.equals(q)){
                     Snackbar snackbar = Snackbar.make(view, "P = Q. Generate keys again.", Snackbar.LENGTH_LONG);
                     snackbar.show();
-                } else {
+                } else if (isEmailValid(emailToEditText.getText().toString())){
                     sendEmail();
+                } else {
+                    Snackbar snackbar = Snackbar.make(view, "Email address is not valid", Snackbar.LENGTH_LONG);
+                    snackbar.show();
                 }
             }
         });
@@ -137,6 +163,33 @@ public class GenerationFragment extends Fragment {
 
         intent.setType("message/rfc822");
         startActivity(Intent.createChooser(intent, "Choose an email client:"));
+    }
+
+    private void saveParameters() {
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                ProfileKeysDatabaseGetter db = new ProfileKeysDatabaseGetter();
+                String email = emailToEditText.getText().toString();
+
+                ProfileKey profileKey = new ProfileKey();
+                profileKey.setEmail(email);
+                profileKey.setPParameter(p.toString());
+                profileKey.setQParameter(q.toString());
+                profileKey.setNParameter(n.toString());
+                profileKey.setEParameter(e.toString());
+                profileKey.setDParameter(d.toString());
+
+                db.insert(profileKey);
+            }
+        });
+    }
+
+    private boolean isEmailValid(String email) {
+        String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
+        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
     }
 
 }

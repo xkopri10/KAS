@@ -1,9 +1,11 @@
 package com.example.kas_project.fragments;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -15,10 +17,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.kas_project.R;
+import com.example.kas_project.database.ProfileKeysDatabaseGetter;
+import com.example.kas_project.models.ProfileKey;
 import com.example.kas_project.utils.RSAGeneration;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.math.BigInteger;
+import java.util.List;
 
 
 /**
@@ -32,7 +37,7 @@ public class DecryptFragment extends Fragment {
     private EditText dEditText;
     private TextView decryptedMessageEditText;
     private EditText encryptedMessageEditText;
-    private Button decryptMessageButton;
+    private Button decryptMessageButton, loadButton;
 
     private BigInteger decryptedText;
     private String messageBackToString;
@@ -41,9 +46,15 @@ public class DecryptFragment extends Fragment {
     private BigInteger d;
     private BigInteger encryptedMessage;
 
+    private String nParameter, dParameter;
+    private Boolean loadFromDb;
+
     public DecryptFragment() {
         // Required empty public constructor
     }
+
+    String[] listEmails;
+    List<ProfileKey> listOfKeys;
 
 
     @Override
@@ -55,6 +66,9 @@ public class DecryptFragment extends Fragment {
         decryptedMessageEditText = rootview.findViewById(R.id.decryptedMessage);
         encryptedMessageEditText = rootview.findViewById(R.id.encryptedMessage);
         decryptMessageButton = rootview.findViewById(R.id.decryptMessageButton);
+        loadButton = rootview.findViewById(R.id.loadParametersButton);
+
+        getData();
 
         decryptMessageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,7 +80,6 @@ public class DecryptFragment extends Fragment {
                     Snackbar snackbar = Snackbar.make(view, "Some of parameters are not filled.", Snackbar.LENGTH_LONG);
                     snackbar.show();
                 } else {
-
                     d = new BigInteger(dEditText.getText().toString());
                     n = new BigInteger(nEditText.getText().toString());
                     encryptedMessage = new BigInteger(encryptedMessageEditText.getText().toString());
@@ -82,7 +95,49 @@ public class DecryptFragment extends Fragment {
             }
         });
 
+        loadButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDialogAndLoadParameters();
+            }
+        });
+
         return rootview;
     }
 
+    private void showDialogAndLoadParameters() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Choose communication person");
+        builder.setItems(listEmails, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, final int which) {
+                Log.e("KTERY: ", String.valueOf(which));
+                setData(which);
+                dEditText.setText(dParameter);
+                nEditText.setText(nParameter);
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+    }
+
+    private void getData() {
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                ProfileKeysDatabaseGetter db = new ProfileKeysDatabaseGetter();
+                listOfKeys = db.getAll();
+                listEmails = new String[listOfKeys.size()];
+                for (int i=0; i<listOfKeys.size(); i++ ){
+                    listEmails[i] = listOfKeys.get(i).getEmail();
+                }
+            }
+        });
+    }
+
+    private void setData(final int index) {
+        nParameter = listOfKeys.get(index).getNParameter();
+        dParameter = listOfKeys.get(index).getDParameter();
+    }
 }

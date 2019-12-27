@@ -9,9 +9,9 @@ data class ProfileKey(@ColumnInfo(name = "name")var name: String?) {
 
     // the database id. It is a instance of the class to be
     // able to set it null and check for it
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    var id : Long? = null
+    var id : Int? = null
 
     @ColumnInfo(name = "email")
     var email : String? = null
