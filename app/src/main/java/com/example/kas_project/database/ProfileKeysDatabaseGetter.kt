@@ -10,17 +10,8 @@ import com.example.kas_project.utils.GlobalApplication
 
 class ProfileKeysDatabaseGetter {
 
-/*    private val sApplication: Application = Application()
-    fun getApplication(): Application {
-        return sApplication
-    }
-
-    fun getContext(): Context {
-        return getApplication().applicationContext
-    }*/
-
     private fun getDatabase() : ProfileKeysDatabase {
-        return Room.databaseBuilder(GlobalApplication.getAppContext(), ProfileKeysDatabase::class.java, "database").build()
+        return Room.databaseBuilder(GlobalApplication.getAppContext(), ProfileKeysDatabase::class.java, "database").allowMainThreadQueries().build()
     }
 
     /**

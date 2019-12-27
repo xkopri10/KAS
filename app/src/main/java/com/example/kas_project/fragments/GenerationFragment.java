@@ -1,6 +1,8 @@
 package com.example.kas_project.fragments;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -117,6 +119,7 @@ public class GenerationFragment extends Fragment {
                     snackbar.show();
                 } else if (isEmailValid(emailToEditText.getText().toString())){
                     saveParameters();
+                    showAlertDialog();
                 } else {
                     Snackbar snackbar = Snackbar.make(view, "Email address is not valid", Snackbar.LENGTH_LONG);
                     snackbar.show();
@@ -147,6 +150,19 @@ public class GenerationFragment extends Fragment {
 
     private String prepareKeysForSend() {
         return "Parameter n:\n" + nTextViewPublic.getText().toString() + "\n\n" + "Parameter e:\n" + eTextView.getText().toString();
+    }
+
+    private void showAlertDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Saved");
+        builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
 

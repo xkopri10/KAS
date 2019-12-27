@@ -3,6 +3,7 @@ package com.example.kas_project.fragments;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -10,6 +11,9 @@ import androidx.fragment.app.Fragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -17,6 +21,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.kas_project.R;
+import com.example.kas_project.activities.AboutAppActivity;
 import com.example.kas_project.database.ProfileKeysDatabaseGetter;
 import com.example.kas_project.models.ProfileKey;
 import com.example.kas_project.utils.RSAGeneration;
@@ -119,7 +124,6 @@ public class DecryptFragment extends Fragment {
         });
         AlertDialog dialog = builder.create();
         dialog.show();
-
     }
 
     private void getData() {

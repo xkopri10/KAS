@@ -3,23 +3,32 @@
     package="com.example.kas_project">
 
     <application
+        android:name=".utils.GlobalApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher_key"
         android:label="@string/app_name"
-        android:name=".utils.GlobalApplication"
         android:roundIcon="@mipmap/ic_launcher_key_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.AboutAppActivity"
+        <activity
+            android:name=".activities.PeopleDecryption"
+            android:label="Communicating people"
             android:screenOrientation="portrait"
-            android:label="About application"/>
-        <activity android:name=".activities.EncryptActivity"
-            android:screenOrientation="portrait"
-            android:label="Encryption"/>
-        <activity android:name=".activities.GenerateKeyAndSendKeyActivity"
-            android:screenOrientation="portrait"
-            android:label="Generation &amp; Decryption"/>
-        <activity android:name=".activities.MainActivity"
+            />
+        <activity
+            android:name=".activities.AboutAppActivity"
+            android:label="About application"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.EncryptActivity"
+            android:label="Encryption"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.GenerateKeyAndSendKeyActivity"
+            android:label="Generation &amp; Decryption"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.MainActivity"
             android:label="RSA algorithm"
             android:screenOrientation="portrait">
             <intent-filter>

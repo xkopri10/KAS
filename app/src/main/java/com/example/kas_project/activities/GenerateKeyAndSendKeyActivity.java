@@ -2,7 +2,11 @@ package com.example.kas_project.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
+
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.example.kas_project.utils.PageAdapter;
@@ -40,5 +44,17 @@ public class GenerateKeyAndSendKeyActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+    public void onClickPeopleIcon(MenuItem item){
+        Intent intent = new Intent(this, PeopleDecryption.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.decryption_menu,menu);
+        return true;
+    }
+
 
 }
