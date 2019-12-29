@@ -6,6 +6,9 @@ import androidx.core.widget.NestedScrollView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -13,7 +16,7 @@ import com.example.kas_project.R;
 
 public class MainActivity extends AppCompatActivity {
 
-    private CardView generateKeysButton, encryptButton, aboutAppButton;
+    private CardView generateKeysButton, encryptButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
 
         generateKeysButton = findViewById(R.id.generate_and_send_button);
         encryptButton = findViewById(R.id.encrypt_button);
-        aboutAppButton = findViewById(R.id.about_app_button);
 
         generateKeysButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -37,13 +39,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 openEncryptActivity();
-            }
-        });
-
-        aboutAppButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openAboutAppActivity();
             }
         });
     }
@@ -58,8 +53,16 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void openAboutAppActivity() {
-        Intent intent = new Intent(this, AboutAppActivity.class);
+    public void onClickInformationButtonMenu(MenuItem item){
+        Intent intent = new Intent(this,AboutAppActivity.class);
         startActivity(intent);
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu,menu);
+        return true;
+    }
+
 }
