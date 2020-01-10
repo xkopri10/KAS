@@ -85,9 +85,7 @@ public class DecryptFragment extends Fragment {
                         encryptedMessageEditText.toString().matches("")) {
                     Snackbar snackbar = Snackbar.make(view, "Some of parameters are not filled.", Snackbar.LENGTH_LONG);
                     snackbar.show();
-                } else
-
-                 if (regex.matcher(dEditText.getText().toString()).find()) {
+                } else if (regex.matcher(dEditText.getText().toString()).find()) {
                     Snackbar snackbar = Snackbar.make(view, "Parameter D contains illegal symbols", Snackbar.LENGTH_LONG);
                     snackbar.show();
                 } else if (regex.matcher(nEditText.getText().toString()).find()) {

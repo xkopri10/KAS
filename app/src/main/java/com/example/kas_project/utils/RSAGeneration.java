@@ -9,6 +9,8 @@ import java.util.Random;
 
 public final class RSAGeneration {
 
+    AppUtils utils = new AppUtils();
+
     /**
      * Method for encryption message.
      * @param message = original message

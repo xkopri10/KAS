@@ -20,12 +20,11 @@ import android.widget.TextView;
 import com.example.kas_project.R;
 import com.example.kas_project.database.ProfileKeysDatabaseGetter;
 import com.example.kas_project.models.ProfileKey;
+import com.example.kas_project.utils.AppUtils;
 import com.example.kas_project.utils.RSAGeneration;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.math.BigInteger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 
 /**
@@ -61,6 +60,7 @@ public class GenerationFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_generation, container, false);
 
         final RSAGeneration rsa = new RSAGeneration();
+        final AppUtils utils = new AppUtils();
 
         pTextView = rootView.findViewById(R.id.generatedP);
         qTextView = rootView.findViewById(R.id.generatedQ);
@@ -80,11 +80,15 @@ public class GenerationFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 generated = true;
-                p = rsa.generatePrimeNumber(256);
+                do {
+                    p = rsa.generatePrimeNumber(256);
+                } while (!p.isProbablePrime(1));
                 String primeNumberTextP = p.toString();
                 pTextView.setText(primeNumberTextP);
 
-                q = rsa.generatePrimeNumber(256);
+                do {
+                    q = rsa.generatePrimeNumber(256);
+                } while (!q.isProbablePrime(1));
                 String primeNumberTextQ = q.toString();
                 qTextView.setText(primeNumberTextQ);
 
@@ -101,7 +105,6 @@ public class GenerationFragment extends Fragment {
                 eTextView.setText(eTextE);
                 Log.e("e", eTextE);
 
-                //d = rsa.calculateDWithExtEuclideanAlgorihm(e, phiN)[1];
                 //d = rsa.calculateD(BigInteger.valueOf(17), BigInteger.valueOf(3233));
                 d = rsa.calculateD(e, phiN);
                 String dTextD = d.toString();
@@ -118,7 +121,7 @@ public class GenerationFragment extends Fragment {
                 } else if (p.equals(q)){
                     Snackbar snackbar = Snackbar.make(view, "P = Q. Generate keys again.", Snackbar.LENGTH_LONG);
                     snackbar.show();
-                } else if (isEmailValid(emailToEditText.getText().toString())){
+                } else if (utils.isEmailValid(emailToEditText.getText().toString())){
                     saveParameters();
                     showAlertDialog();
                 } else {
@@ -137,7 +140,7 @@ public class GenerationFragment extends Fragment {
                 } else if (p.equals(q)){
                     Snackbar snackbar = Snackbar.make(view, "P = Q. Generate keys again.", Snackbar.LENGTH_LONG);
                     snackbar.show();
-                } else if (isEmailValid(emailToEditText.getText().toString())){
+                } else if (utils.isEmailValid(emailToEditText.getText().toString())){
                     sendEmail();
                 } else {
                     Snackbar snackbar = Snackbar.make(view, "Email address is not valid", Snackbar.LENGTH_LONG);
@@ -200,13 +203,6 @@ public class GenerationFragment extends Fragment {
                 db.insert(profileKey);
             }
         });
-    }
-
-    private boolean isEmailValid(String email) {
-        String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
-        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(email);
-        return matcher.matches();
     }
 
 }

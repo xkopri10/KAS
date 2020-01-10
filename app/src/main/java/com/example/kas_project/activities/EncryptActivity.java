@@ -13,11 +13,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.kas_project.R;
+import com.example.kas_project.utils.AppUtils;
 import com.example.kas_project.utils.RSAGeneration;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.math.BigInteger;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 public class EncryptActivity extends AppCompatActivity {
 
@@ -43,10 +45,14 @@ public class EncryptActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        NestedScrollView view = (NestedScrollView) findViewById(R.id.nestedscrollviewEncrypt);
+        final NestedScrollView view = (NestedScrollView) findViewById(R.id.nestedscrollviewEncrypt);
         view.setNestedScrollingEnabled(true);
 
         final RSAGeneration rsa = new RSAGeneration();
+        final AppUtils utils = new AppUtils();
+
+        final Pattern regexMessage = Pattern.compile("[{}|~]");
+        final Pattern regex = Pattern.compile("[-+*/#{}()a-zA-Z;,. ]");
 
         editTextTo = findViewById(R.id.sendtoedittext);
         messageEditText = findViewById(R.id.messageedittext);
@@ -60,12 +66,23 @@ public class EncryptActivity extends AppCompatActivity {
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
                 if (editTextTo.getText().toString().matches("") ||
                         messageEditText.getText().toString().matches("") ||
                         eEditText.getText().toString().matches("") ||
                         encrzptedMessage.getText().toString().matches("") ||
                         nEditText.getText().toString().matches("")) {
                     Snackbar snackbar = Snackbar.make(view, "Some of parameters are not filled.", Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                } else if (regex.matcher(eEditText.getText().toString()).find()) {
+                    Snackbar snackbar = Snackbar.make(view, "Parameter E contains illegal symbols", Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                } else if (regex.matcher(nEditText.getText().toString()).find()) {
+                    Snackbar snackbar = Snackbar.make(view, "Parameter N contains illegal symbols", Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                } else if (utils.isEmailValid(editTextTo.getText().toString())) {
+                    Snackbar snackbar = Snackbar.make(view, "Email address is not valid.", Snackbar.LENGTH_LONG);
                     snackbar.show();
                 } else {
                     sendEmail();
@@ -81,8 +98,10 @@ public class EncryptActivity extends AppCompatActivity {
                         nEditText.getText().toString().matches("")) {
                     Snackbar snackbar = Snackbar.make(view, "Some of parameters are not filled.", Snackbar.LENGTH_LONG);
                     snackbar.show();
+                } else if (regexMessage.matcher(messageEditText.getText().toString()).find()) {
+                    Snackbar snackbar = Snackbar.make(view, "Message contain illegal symbols: {,},|,~", Snackbar.LENGTH_LONG);
+                    snackbar.show();
                 } else {
-
                     n = new BigInteger(nEditText.getText().toString());
                     e = new BigInteger(eEditText.getText().toString());
 
