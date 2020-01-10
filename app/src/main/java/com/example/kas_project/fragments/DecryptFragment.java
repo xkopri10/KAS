@@ -29,6 +29,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.math.BigInteger;
 import java.util.List;
+import java.util.regex.Pattern;
 
 
 /**
@@ -52,7 +53,6 @@ public class DecryptFragment extends Fragment {
     private BigInteger encryptedMessage;
 
     private String nParameter, dParameter;
-    private Boolean loadFromDb;
 
     public DecryptFragment() {
         // Required empty public constructor
@@ -78,11 +78,23 @@ public class DecryptFragment extends Fragment {
         decryptMessageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Pattern regex = Pattern.compile("[-+*/#{}()a-zA-Z;,. ]");
 
                 if (dEditText.getText().toString().matches("") ||
                         nEditText.getText().toString().matches("") ||
                         encryptedMessageEditText.toString().matches("")) {
                     Snackbar snackbar = Snackbar.make(view, "Some of parameters are not filled.", Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                } else
+
+                 if (regex.matcher(dEditText.getText().toString()).find()) {
+                    Snackbar snackbar = Snackbar.make(view, "Parameter D contains illegal symbols", Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                } else if (regex.matcher(nEditText.getText().toString()).find()) {
+                        Snackbar snackbar = Snackbar.make(view, "Parameter N contains illegal symbols", Snackbar.LENGTH_LONG);
+                        snackbar.show();
+                } else if (regex.matcher(encryptedMessageEditText.getText().toString()).find()) {
+                    Snackbar snackbar = Snackbar.make(view, "Message contains illegal symbols", Snackbar.LENGTH_LONG);
                     snackbar.show();
                 } else {
                     d = new BigInteger(dEditText.getText().toString());
@@ -116,7 +128,6 @@ public class DecryptFragment extends Fragment {
         builder.setItems(listEmails, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, final int which) {
-                Log.e("KTERY: ", String.valueOf(which));
                 setData(which);
                 dEditText.setText(dParameter);
                 nEditText.setText(nParameter);

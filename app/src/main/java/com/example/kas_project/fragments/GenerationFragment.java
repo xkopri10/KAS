@@ -24,7 +24,6 @@ import com.example.kas_project.utils.RSAGeneration;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.math.BigInteger;
-import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -94,7 +93,7 @@ public class GenerationFragment extends Fragment {
                 nTextViewPrivate.setText(nTextN);
                 nTextViewPublic.setText(nTextN);
 
-                phiN = rsa.calculateEulerFunctionPhi(p, q);
+                phiN = rsa.calculatePhiN(p, q);
                 Log.e("PhiN", phiN.toString());
 
                 e = rsa.calculateE(phiN);
@@ -102,7 +101,9 @@ public class GenerationFragment extends Fragment {
                 eTextView.setText(eTextE);
                 Log.e("e", eTextE);
 
-                d = rsa.calculateDWithExtEuclideanAlgorihm(e, phiN)[1];
+                //d = rsa.calculateDWithExtEuclideanAlgorihm(e, phiN)[1];
+                //d = rsa.calculateD(BigInteger.valueOf(17), BigInteger.valueOf(3233));
+                d = rsa.calculateD(e, phiN);
                 String dTextD = d.toString();
                 dTextView.setText(dTextD);
             }

@@ -2,9 +2,10 @@ package com.example.kas_project.utils;
 
 import android.util.Log;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.math.BigInteger;
 import java.util.Random;
-import java.util.Scanner;
 
 public final class RSAGeneration {
 
@@ -13,7 +14,7 @@ public final class RSAGeneration {
      * @param message = original message
      * @param e = parameter E (part of public key)
      * @param n = parameter N (part of public key
-     * @return - modPow = message(on exponent - e) mod n
+     * @return - modPow = message(on exponent e) mod n
      */
     public BigInteger encryptMessage(BigInteger message, BigInteger e, BigInteger n) {
         return message.modPow(e, n);
@@ -60,10 +61,22 @@ public final class RSAGeneration {
         int cipherLength = cipherString.length();
 
         String output = "";
-        Log.e("LENGTH of decrzpted message", String.valueOf(cipherLength));
+        Log.e("LENGTH of decrypted message", String.valueOf(cipherLength));
         int i = 0;
 
-        if (checkOddOrEvenNumber(cipherLength)) {
+        try {
+            while (i < (cipherString.length())) {
+                int asciiNumberOfLetter = Integer.parseInt(cipherString.substring(i, i+2));
+                char character = (char) asciiNumberOfLetter;
+                output = output + character;
+                i = i + 2;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+/*        if (checkEvenNumber(cipherLength)) {
             while (i < (cipherString.length())) {
                 int asciiNumberOfLetter = Integer.parseInt(cipherString.substring(i, i+2));
                 char character = (char) asciiNumberOfLetter;
@@ -71,13 +84,18 @@ public final class RSAGeneration {
                 i = i + 2;
             }
         } else {
+            cipherLength
             Log.e("WARNING:", "NUMBER IS ODD");
-        }
-
+        }*/
         return output;
     }
 
-    private Boolean checkOddOrEvenNumber(int textLength) {
+    /**
+     * Method for check if length of text is even or not
+     * @param textLength = length of text
+     * @return true/false (true = is even / false = it is not even - it is odd)
+     */
+    private Boolean checkEvenNumber(int textLength) {
         return (textLength % 2 == 0);
     }
 
@@ -97,7 +115,7 @@ public final class RSAGeneration {
      * @param q = prime number Q
      * @return - subtract = calculate difference between p and 1 (n - 1) and (q - 1). Then the numbers are multiplied like (n - 1)*(q - 1)
      */
-    public BigInteger calculateEulerFunctionPhi(BigInteger p, BigInteger q) {
+    public BigInteger calculatePhiN(BigInteger p, BigInteger q) {
         return (p.subtract(BigInteger.ONE)).multiply((q.subtract(BigInteger.ONE)));
     }
 
@@ -107,36 +125,44 @@ public final class RSAGeneration {
      * @param number2 = will be phiN
      * @return number which is divided by another number. What I want is to get number 1 -> it means that these 2 numbers has common divisor 1
      */
-    public BigInteger calculateGreatestCommonDivisor(BigInteger number1, BigInteger number2) {
+    public BigInteger calculateGCD(BigInteger number1, BigInteger number2) {
         if (number2.equals(BigInteger.ZERO)) {
             return number1;
         } else {
-            return calculateGreatestCommonDivisor(number2, number1.mod(number2));
+            return calculateGCD(number2, number1.mod(number2));
         }
     }
 
     /**
-     * Method for calculating E (part of public key) by finding Phi (which they are equals to 1)
-     * e = 256 bits because is comparing with Phi (it has 256b) with new random value.
-     * but it can be 128b too
-     * @param phiN = value of (n - 1)*(q - 1)
-     * @return -
+     * Method for calculating E (part of public key) by finding PhiN
+     * @param phiN = Euler function = value of (n - 1)*(q - 1)
+     * @return - E
      */
     public BigInteger calculateE(BigInteger phiN) {
+        // generating some random number
         Random random = new Random();
         BigInteger e;
+
         do {
-            e = new BigInteger(128, random);                                /* generate new bigInteger value - over the range 0 to (2^numBits – 1) */
+            // to variable e is set new random BigInteger value with length 128 bits
+            // because it has to be smaller than (p+1) or (q+1) - so it is ok with 128 bits number, because P and Q are 256 bits numbers
+            e = new BigInteger(128, random);
+
+            // comparing E number with phiN (Euler function)
             while (e.min(phiN).equals(phiN)) {
-                e = new BigInteger(128, random);                            /* while phi is smaller than e ---> generate new E*/
+
+                // if minimum from e or phiN is equal phiN then generate new E
+                e = new BigInteger(128, random);
             }
-        } while (!calculateGreatestCommonDivisor(e, phiN).equals(BigInteger.ONE));  /* Do that UNTIL GCD is 1 */
+
+            // this algorithm is repeated until the greatest common divisor is equal to 1 - if its not - E is found
+        } while (!calculateGCD(e, phiN).equals(BigInteger.ONE));
         return e;
     }
 
     /**
      * Generate prime number about size bits in parameter
-     * @param bits = 128/256/512/1024 and so on
+     * @param bits = 256/512/1024 and so on
      * @return prime number
      */
     public BigInteger generatePrimeNumber(int bits) {
@@ -145,25 +171,49 @@ public final class RSAGeneration {
     }
 
     /**
-     * Method for calculate parameter D (part of private key)
-     * For calculation D I was inspired here: https://crypto.stackexchange.com/questions/5889/calculating-rsa-private-exponent-when-given-public-exponent-and-the-modulus-fact
-     * Method calculate D with help Extended Euclidean algorithm (ran backwards than normal)
-     * Mathematical expression is: ax + by = gcd(a,b) where a = e and b = phiN - we need it for to solve: ex ≡ 1 (mod φ(n)) where x = d
-     *
-     * @param e = e
-     * @param phi = phi
-     * @return : [d, p, q] where d = gcd(a,b) and ap + bq = d
+     * Method for calculating D parameter - it use extended Euclidean algorithm
+     * @param e
+     * @param n
+     * @return
      */
-    public BigInteger[] calculateDWithExtEuclideanAlgorihm(BigInteger e, BigInteger phi) {
-        if (phi.equals(BigInteger.ZERO)) {
-            return new BigInteger[] {
-                    e, BigInteger.ONE, BigInteger.ZERO
-            };
+    //calculate multiplicative inverse of a%n using the extended euclidean GCD algorithm
+    public BigInteger calculateD(BigInteger e, BigInteger n){
+
+        BigInteger [] ans = extendedEuclid(e, n);
+
+        // výsledek by měl být větší jak 0 (neměl by být záporný)
+        if (ans[1].compareTo(BigInteger.ZERO) > 0) {
+            return ans[1];
+        } else {
+            return ans[1].add(n);
         }
-        BigInteger[] values = calculateDWithExtEuclideanAlgorihm(phi, e.mod(phi));
-        return new BigInteger[] {
-                values[0],                                                  // d
-                values[2],                                                  // p
-                values[1].subtract(e.divide(phi).multiply(values[2]))};     // q
+    }
+
+    //Calculate d = calculateD(a,N) = ex + ny
+    private static BigInteger [] extendedEuclid (BigInteger e, BigInteger N){
+        //vytvorim si pole mezivýsledků o velikosti 3 prvků
+        BigInteger [] betweenResult = new BigInteger[3];
+        BigInteger ex, ny;
+
+        // provede se pouze v posledním zanoření (neboli v nejzanorenejsim kroku celé rekurze)
+        if (N.equals(BigInteger.ZERO)) {
+            betweenResult[0] = e;
+            betweenResult[1] = BigInteger.ONE;
+            betweenResult[2] = BigInteger.ZERO;
+            return betweenResult;
+        }
+
+        // rekurzivne volana funkce - zanori nas až do kroku kdy se N bude rovnat 0
+        betweenResult = extendedEuclid (N, e.mod(N));
+
+        ex = betweenResult[1];
+        ny = betweenResult[2];
+
+        betweenResult[1] = ny;
+        BigInteger temp = e.divide(N);
+        temp = ny.multiply(temp);
+        betweenResult[2] = ex.subtract(temp);
+
+        return betweenResult;
     }
 }
