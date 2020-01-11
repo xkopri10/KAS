@@ -80,7 +80,7 @@ public class DecryptFragment extends Fragment {
 
                 if (dEditText.getText().toString().matches("") ||
                         nEditText.getText().toString().matches("") ||
-                        encryptedMessageEditText.toString().matches("")) {
+                        encryptedMessageEditText.getText().toString().matches("")) {
                     Snackbar snackbar = Snackbar.make(view, "Some of parameters are not filled.", Snackbar.LENGTH_LONG);
                     snackbar.show();
                 } else if (regex.matcher(dEditText.getText().toString()).find()) {

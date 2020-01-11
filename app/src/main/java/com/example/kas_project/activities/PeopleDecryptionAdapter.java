@@ -40,7 +40,7 @@ class PeopleDecryptionAdapter extends RecyclerView.Adapter<PeopleDecryptionAdapt
                 ProfileKeysDatabaseGetter db = new ProfileKeysDatabaseGetter();
                 db.delete(profileKeysPeople.get(position));
                 profileKeysPeople.clear();
-                profileKeysPeople = db.getAll();
+                profileKeysPeople = db.getAllDecryptPeople();
                 notifyDataSetChanged();
             }
         });
