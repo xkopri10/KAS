@@ -4,18 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.PeopleDecryptionListActivity">
+    tools:context=".activities.PeopleEncryprionListActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/rec_view"/>
-
-    <TextView
-        android:id="@+id/noDataTextView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="150dp"
-        android:textAlignment="center" />
+        android:id="@+id/rec_view_encrypt_people"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

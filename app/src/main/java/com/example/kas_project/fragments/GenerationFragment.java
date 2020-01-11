@@ -199,6 +199,7 @@ public class GenerationFragment extends Fragment {
                 profileKey.setNParameter(n.toString());
                 profileKey.setEParameter(e.toString());
                 profileKey.setDParameter(d.toString());
+                profileKey.setPeopleForDecrypt(true);
 
                 db.insert(profileKey);
             }

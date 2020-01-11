@@ -14,7 +14,7 @@ import com.example.kas_project.models.ProfileKey;
 import java.util.List;
 import java.util.Objects;
 
-public class PeopleDecryption extends AppCompatActivity {
+public class PeopleDecryptionListActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     RecyclerView.Adapter adapter;
@@ -30,7 +30,7 @@ public class PeopleDecryption extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.rec_view);
         ProfileKeysDatabaseGetter db = new ProfileKeysDatabaseGetter();
-        List<ProfileKey> profiles = db.getAll();
+        List<ProfileKey> profiles = db.getAllDecryptPeople();
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new PeopleDecryptionAdapter(profiles);

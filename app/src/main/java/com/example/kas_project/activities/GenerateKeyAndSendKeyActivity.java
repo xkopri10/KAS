@@ -45,7 +45,7 @@ public class GenerateKeyAndSendKeyActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
     public void onClickPeopleIcon(MenuItem item){
-        Intent intent = new Intent(this, PeopleDecryption.class);
+        Intent intent = new Intent(this, PeopleDecryptionListActivity.class);
         startActivity(intent);
     }
 

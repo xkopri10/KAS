@@ -73,8 +73,6 @@ public class DecryptFragment extends Fragment {
         decryptMessageButton = rootview.findViewById(R.id.decryptMessageButton);
         loadButton = rootview.findViewById(R.id.loadParametersButton);
 
-        getData();
-
         decryptMessageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -140,7 +138,7 @@ public class DecryptFragment extends Fragment {
             @Override
             public void run() {
                 ProfileKeysDatabaseGetter db = new ProfileKeysDatabaseGetter();
-                listOfKeys = db.getAll();
+                listOfKeys = db.getAllDecryptPeople();
                 listEmails = new String[listOfKeys.size()];
                 for (int i=0; i<listOfKeys.size(); i++ ){
                     listEmails[i] = listOfKeys.get(i).getEmail();
@@ -152,5 +150,12 @@ public class DecryptFragment extends Fragment {
     private void setData(final int index) {
         nParameter = listOfKeys.get(index).getNParameter();
         dParameter = listOfKeys.get(index).getDParameter();
+    }
+
+    @Override
+    public void onResume() {
+        Log.e("RESUME","aaaaa");
+        super.onResume();
+        getData();
     }
 }

@@ -9,6 +9,12 @@ interface ProfileKeysDao {
     @Query("SELECT * FROM profileKeys")
     fun getAll(): MutableList<ProfileKey>
 
+    @Query("SELECT * FROM profileKeys WHERE peopleForEncrypt = 1")
+    fun getAllEncryptPeople(): MutableList<ProfileKey>
+
+    @Query("SELECT * FROM profileKeys WHERE peopleForDecrypt = 1")
+    fun getAllDecryptPeople(): MutableList<ProfileKey>
+
     @Query("SELECT * FROM profileKeys WHERE id = :id")
     fun findById(id : Long): ProfileKey
 

@@ -30,5 +30,11 @@ data class ProfileKey(@ColumnInfo(name = "name")var name: String?) {
 
     @ColumnInfo(name = "dParameter")
     var dParameter : String? = null
+
+    @ColumnInfo(name = "peopleForEncrypt")
+    var peopleForEncrypt : Boolean? = false
+
+    @ColumnInfo(name = "peopleForDecrypt")
+    var peopleForDecrypt : Boolean? = false
 }
 

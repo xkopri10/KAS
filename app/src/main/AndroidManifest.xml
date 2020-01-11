@@ -11,10 +11,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activities.PeopleDecryption"
+            android:name=".activities.PeopleEncryprionListActivity"
             android:label="Communicating people"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activities.AddEncryptFriendToListActivity"
+            android:label="Add person"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.PeopleDecryptionListActivity"
+            android:label="Communicating people"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.AboutAppActivity"
             android:label="About application"

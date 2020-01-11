@@ -50,6 +50,20 @@ class ProfileKeysDatabaseGetter {
         return getDatabase().profileKeysDao().getAll()
     }
 
+    /**
+     * Returns all profileKeys from the database (only encryption people = friends FROM encryption section)
+     */
+    fun getAllEncryptPeople(): MutableList<ProfileKey>{
+        return getDatabase().profileKeysDao().getAllEncryptPeople();
+    }
+
+    /**
+     * Returns all profileKeys from the database (only encryption people = friends FROM decryption section)
+     */
+    fun getAllDecryptPeople(): MutableList<ProfileKey>{
+        return getDatabase().profileKeysDao().getAllDecryptPeople();
+    }
+
 
 
 }
