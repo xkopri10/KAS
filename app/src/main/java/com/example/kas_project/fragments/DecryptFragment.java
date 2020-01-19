@@ -33,7 +33,7 @@ import java.util.regex.Pattern;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragment for Decryption section
  */
 public class DecryptFragment extends Fragment {
 
@@ -58,10 +58,14 @@ public class DecryptFragment extends Fragment {
         // Required empty public constructor
     }
 
-    String[] listEmails;
-    List<ProfileKey> listOfKeys;
+    private String[] listEmails;
+    private List<ProfileKey> listOfKeys;
 
-
+    /**
+     * On CreateView method
+     * Here is logic for each button on the screen and references on the objects
+     * @return view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootview = inflater.inflate(R.layout.fragment_decrypt, container, false);
@@ -118,6 +122,9 @@ public class DecryptFragment extends Fragment {
         return rootview;
     }
 
+    /**
+     * Method for showing Dialog - and setting attributes to the editTexts
+     */
     private void showDialogAndLoadParameters() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Choose communication person");
@@ -133,6 +140,10 @@ public class DecryptFragment extends Fragment {
         dialog.show();
     }
 
+    /**
+     * Method for getting data from database and setting them to the list in Dialog
+     * Need to be in AsyncTask because of database
+     */
     private void getData() {
         AsyncTask.execute(new Runnable() {
             @Override
@@ -147,11 +158,19 @@ public class DecryptFragment extends Fragment {
         });
     }
 
+    /**
+     * on the chosen record from dialog here is setting data to atributes for next work
+     * @param index - index of record in list
+     */
     private void setData(final int index) {
         nParameter = listOfKeys.get(index).getNParameter();
         dParameter = listOfKeys.get(index).getDParameter();
     }
 
+    /**
+     * in OnResume Activity life cycle need to be gets data for Dialog
+     * need to be here because if user delete some record from activity for deleting, when the user go back, this list need to be updated
+     */
     @Override
     public void onResume() {
         Log.e("RESUME","aaaaa");

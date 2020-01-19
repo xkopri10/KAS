@@ -55,6 +55,11 @@ public class GenerationFragment extends Fragment {
         // Required empty public constructor
     }
 
+    /**
+     * On Create method
+     * Here is logic for each button on the screen and references on the objects
+     * @return view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_generation, container, false);
@@ -105,6 +110,7 @@ public class GenerationFragment extends Fragment {
                 eTextView.setText(eTextE);
                 Log.e("e", eTextE);
 
+                // tested on these values from practical classes (in School - přednáška na Asymetrické šifrování - RSA)
                 //d = rsa.calculateD(BigInteger.valueOf(17), BigInteger.valueOf(3233));
                 d = rsa.calculateD(e, phiN);
                 String dTextD = d.toString();
@@ -152,10 +158,17 @@ public class GenerationFragment extends Fragment {
     }
 
 
+    /**
+     * Method preparing format of message which is send by email client to another user
+     * @return this format
+     */
     private String prepareKeysForSend() {
         return "Parameter n:\n" + nTextViewPublic.getText().toString() + "\n\n" + "Parameter e:\n" + eTextView.getText().toString();
     }
 
+    /**
+     * Method for showing AlertDialog when user save some parameters to database
+     */
     private void showAlertDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Saved");
@@ -164,12 +177,14 @@ public class GenerationFragment extends Fragment {
             public void onClick(DialogInterface dialogInterface, int i) {
             }
         });
-
         AlertDialog dialog = builder.create();
         dialog.show();
     }
 
-
+    /**
+     * Method for invoke email client
+     * setting parameters to transmitted data with intent
+     */
     private void sendEmail() {
         String recipientList = emailToEditText.getText().toString();
         String[] recipients = recipientList.split(",");
@@ -185,6 +200,9 @@ public class GenerationFragment extends Fragment {
         startActivity(Intent.createChooser(intent, "Choose an email client:"));
     }
 
+    /**
+     * Method for saving data to database
+     */
     private void saveParameters() {
         AsyncTask.execute(new Runnable() {
             @Override

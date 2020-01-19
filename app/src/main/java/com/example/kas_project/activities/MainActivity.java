@@ -14,6 +14,9 @@ import android.widget.Button;
 
 import com.example.kas_project.R;
 
+/**
+ * Class for MainActivity logic
+ */
 public class MainActivity extends AppCompatActivity {
 
     private CardView generateKeysButton, encryptButton;
@@ -43,21 +46,33 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Method call when user click on Generation and Decryption section
+     */
     private void openGenerateKeyAndSendKeyActivity() {
         Intent intent = new Intent(this, GenerateKeyAndSendKeyActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * Method call when user click on Encryption section
+     */
     private void openEncryptActivity() {
         Intent intent = new Intent(this, EncryptActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * Method call when user click on Information Button Icon
+     */
     public void onClickInformationButtonMenu(MenuItem item){
         Intent intent = new Intent(this,AboutAppActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * Method for creating menu in this activity
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();

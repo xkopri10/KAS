@@ -3,6 +3,10 @@ package com.example.kas_project.database
 import androidx.room.*
 import com.example.kas_project.models.ProfileKey
 
+/**
+ * Interface for manipulation with data (getting, inserting update, deleting and so on)
+ * DB is based on DAO 
+ */
 @Dao
 interface ProfileKeysDao {
 

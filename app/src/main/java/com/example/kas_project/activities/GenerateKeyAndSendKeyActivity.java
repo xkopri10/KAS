@@ -14,6 +14,9 @@ import com.example.kas_project.R;
 import com.google.android.material.tabs.TabLayout;
 import java.util.Objects;
 
+/**
+ * Class for showing fragments in Decryption Section
+ */
 public class GenerateKeyAndSendKeyActivity extends AppCompatActivity {
 
 
@@ -36,6 +39,9 @@ public class GenerateKeyAndSendKeyActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Method for arrow back in Activity
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int idItem = item.getItemId();
@@ -44,11 +50,18 @@ public class GenerateKeyAndSendKeyActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    /**
+     * Method which is called when user click on the icon Add New User
+     */
     public void onClickPeopleIcon(MenuItem item){
         Intent intent = new Intent(this, PeopleDecryptionListActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * Method for creating menu in this activity
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();

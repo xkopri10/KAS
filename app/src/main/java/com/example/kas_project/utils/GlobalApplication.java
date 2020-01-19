@@ -3,6 +3,9 @@ package com.example.kas_project.utils;
 import android.app.Application;
 import android.content.Context;
 
+/**
+ * Class for getting application context (needed in fragments)
+ */
 public class GlobalApplication extends Application {
 
     private static Context appContext;

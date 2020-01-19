@@ -5,16 +5,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.kas_project.R;
 import com.example.kas_project.database.ProfileKeysDatabaseGetter;
 import com.example.kas_project.models.ProfileKey;
-
 import java.util.List;
 
+/**
+ * Adapter for Encryption section - adapter for work with Lists and database
+ */
 public class PeopleEncryptionAdapter extends RecyclerView.Adapter<PeopleEncryptionAdapter.ViewHolder> {
 
     List<ProfileKey> profileKeysPeople;

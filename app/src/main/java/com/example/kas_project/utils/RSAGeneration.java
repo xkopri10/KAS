@@ -187,6 +187,12 @@ public final class RSAGeneration {
         }
     }
 
+    /**
+     * Method for extended euclid algorithm
+     * @param e - BigInteger value E
+     * @param N - BigInteger value N
+     * @return
+     */
     // Calculate d = calculateD(a,N) = ex + ny
     // Recursion calling of method
     private static BigInteger [] extendedEuclid (BigInteger e, BigInteger N){
@@ -206,12 +212,14 @@ public final class RSAGeneration {
         // rekurzivne volana funkce - zanori nas až do kroku kdy se N bude rovnat 0
         betweenResult = extendedEuclid (N, e.mod(N));
 
+        // changing parameters each other
         ex = betweenResult[1];
         ny = betweenResult[2];
 
         betweenResult[1] = ny;
         BigInteger temp = e.divide(N);
         temp = ny.multiply(temp);
+
         betweenResult[2] = ex.subtract(temp);
 
         return betweenResult;

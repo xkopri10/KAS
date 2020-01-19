@@ -5,15 +5,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.ImageButton;
-
 import com.example.kas_project.R;
 import com.example.kas_project.database.ProfileKeysDatabaseGetter;
 import com.example.kas_project.models.ProfileKey;
-
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Activity for showing list of users in Dencryption section
+ */
 public class PeopleDecryptionListActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;

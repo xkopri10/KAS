@@ -3,19 +3,18 @@ package com.example.kas_project.activities;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.textclassifier.TextClassification;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.kas_project.R;
 import com.example.kas_project.database.ProfileKeysDatabaseGetter;
 import com.example.kas_project.models.ProfileKey;
-
 import java.util.List;
 
+/**
+ * Adapter for Decryption section - adapter for work with Lists and database
+ */
 class PeopleDecryptionAdapter extends RecyclerView.Adapter<PeopleDecryptionAdapter.ViewHolder> {
 
     List<ProfileKey> profileKeysPeople;

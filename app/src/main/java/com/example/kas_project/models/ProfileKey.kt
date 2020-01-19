@@ -2,13 +2,14 @@ package com.example.kas_project.models
 
 import androidx.room.*
 
+/**
+ * Model for saving keys to the database
+ */
 @Entity(tableName = "profileKeys")
 data class ProfileKey(@ColumnInfo(name = "name")var name: String?) {
 
     constructor() : this(null)
 
-    // the database id. It is a instance of the class to be
-    // able to set it null and check for it
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     var id : Int? = null

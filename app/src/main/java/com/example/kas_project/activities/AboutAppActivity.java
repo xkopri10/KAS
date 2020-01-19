@@ -11,6 +11,9 @@ import com.example.kas_project.R;
 import java.math.BigInteger;
 import java.util.Objects;
 
+/**
+ * Class for showing Information about application
+ */
 public class AboutAppActivity extends AppCompatActivity {
 
     @Override
@@ -25,6 +28,9 @@ public class AboutAppActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+    /**
+     * Method for arrow back in Activity
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int idItem = item.getItemId();

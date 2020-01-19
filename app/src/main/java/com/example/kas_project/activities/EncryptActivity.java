@@ -198,6 +198,9 @@ public class EncryptActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     * Method for arrow back in Activity
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int idItem = item.getItemId();

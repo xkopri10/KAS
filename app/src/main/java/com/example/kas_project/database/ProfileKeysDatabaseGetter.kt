@@ -1,9 +1,6 @@
 package com.example.kas_project.database
 
-import android.content.Context
-import android.provider.DocumentsContract
 import androidx.room.Room
-import android.app.Application
 import com.example.kas_project.models.ProfileKey
 import com.example.kas_project.utils.GlobalApplication
 
@@ -15,10 +12,10 @@ class ProfileKeysDatabaseGetter {
     }
 
     /**
-     * Inserts a single task to the database
+     * Inserts a single profileKey to the database
      */
-    fun insert(task : ProfileKey):Long{
-        return getDatabase().profileKeysDao().insert(task)
+    fun insert(profileKey : ProfileKey):Long{
+        return getDatabase().profileKeysDao().insert(profileKey)
     }
 
     /**
@@ -32,15 +29,15 @@ class ProfileKeysDatabaseGetter {
     /**
      * Updates a profileKey in the database
      */
-    fun update(task: ProfileKey){
-        getDatabase().profileKeysDao().update(task)
+    fun update(profileKey: ProfileKey){
+        getDatabase().profileKeysDao().update(profileKey)
     }
 
     /**
      * Deletes a profileKeys from the database
      */
-    fun delete(task: ProfileKey){
-        getDatabase().profileKeysDao().delete(task)
+    fun delete(profileKey: ProfileKey){
+        getDatabase().profileKeysDao().delete(profileKey)
     }
 
     /**
@@ -51,17 +48,17 @@ class ProfileKeysDatabaseGetter {
     }
 
     /**
-     * Returns all profileKeys from the database (only encryption people = friends FROM encryption section)
+     * Returns all profileKeys from the database (only encryption people = friends FROM ENCRYPTION SECTION)
      */
     fun getAllEncryptPeople(): MutableList<ProfileKey>{
-        return getDatabase().profileKeysDao().getAllEncryptPeople();
+        return getDatabase().profileKeysDao().getAllEncryptPeople()
     }
 
     /**
-     * Returns all profileKeys from the database (only encryption people = friends FROM decryption section)
+     * Returns all profileKeys from the database (only encryption people = friends FROM DECRYPTION SECTION)
      */
     fun getAllDecryptPeople(): MutableList<ProfileKey>{
-        return getDatabase().profileKeysDao().getAllDecryptPeople();
+        return getDatabase().profileKeysDao().getAllDecryptPeople()
     }
 
 

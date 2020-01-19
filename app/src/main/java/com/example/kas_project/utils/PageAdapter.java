@@ -8,6 +8,9 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import com.example.kas_project.fragments.DecryptFragment;
 import com.example.kas_project.fragments.GenerationFragment;
 
+/**
+ * Class for switching between pages (fragments)
+ */
 public class PageAdapter extends FragmentPagerAdapter {
 
     private int numOfTabs;

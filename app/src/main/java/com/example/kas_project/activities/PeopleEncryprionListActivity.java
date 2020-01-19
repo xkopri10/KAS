@@ -15,6 +15,9 @@ import com.example.kas_project.models.ProfileKey;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Activity for showing list of users in Encryption section
+ */
 public class PeopleEncryprionListActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;

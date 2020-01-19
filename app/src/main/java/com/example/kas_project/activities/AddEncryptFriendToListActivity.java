@@ -20,6 +20,9 @@ import java.math.BigInteger;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
+/**
+ * Class for adding people to the database in Encryption section
+ */
 public class AddEncryptFriendToListActivity extends AppCompatActivity {
 
     private EditText sendToEditText, parameterNEditText, parameterEEditText;
@@ -28,6 +31,10 @@ public class AddEncryptFriendToListActivity extends AppCompatActivity {
     private BigInteger n;
     private BigInteger e;
 
+    /**
+     * On Create Method
+     * Here is logic for each button on the screen and references on the objects
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +76,10 @@ public class AddEncryptFriendToListActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Method for saving new person to the database
+     * Need to be in Async task because of database
+     */
     private void saveNewPerson() {
         AsyncTask.execute(new Runnable() {
             @Override
@@ -91,6 +102,9 @@ public class AddEncryptFriendToListActivity extends AppCompatActivity {
         finish();
     }
 
+    /**
+     * Method for arrow back in Activity
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int idItem = item.getItemId();
@@ -99,6 +113,10 @@ public class AddEncryptFriendToListActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    /**
+     * Life cycle methods for activity
+     */
 
     @Override
     protected void onStart() {
