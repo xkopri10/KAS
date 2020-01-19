@@ -1,15 +1,10 @@
 package com.example.kas_project.utils;
 
 import android.util.Log;
-
-import com.google.android.material.snackbar.Snackbar;
-
 import java.math.BigInteger;
 import java.util.Random;
 
 public final class RSAGeneration {
-
-    AppUtils utils = new AppUtils();
 
     /**
      * Method for encryption message.
@@ -39,21 +34,24 @@ public final class RSAGeneration {
      * @return : BigInteger number where every 2 numbers correspond to decimal letter code in ASCII
      */
     public BigInteger stringMessageToAlphabetValue(String message) {
+        // all letters in message are transform to UPPER CASE
         message = message.toUpperCase();
         String cipherString = "";
         int i = 0;
         while (i < message.length()) {
-            int character = (int) message.charAt(i);
-            cipherString = cipherString + character;
+            // each letter is transform to ASCII code (integer)
+            int characterInInteger = (int) message.charAt(i);
+            cipherString = cipherString + characterInInteger;
             i++;
         }
+        // return BigInteger number - BigInteger(text) - returns BigInteger number
         return new BigInteger(cipherString);
     }
 
     /**
      * Method for converting number to letter helped with ASCII
      * every 2 numbers correspond to decimal letter code in ASCII (that"s why i+2)
-     * NOT ALLOWED characters like: {,},|,~. Because their code is 3 three-digit
+     * NOT ALLOWED characters like: {,},|,~. Because their code is 3 three-digit - this is checked in code
      *
      * @param message = message is in BigInteger number
      * @return : text decrypted message
@@ -68,27 +66,19 @@ public final class RSAGeneration {
 
         try {
             while (i < (cipherString.length())) {
+                // first I get 2 numbers (represent one letter) ... substring give me numbers from interval (from i to i+2)
                 int asciiNumberOfLetter = Integer.parseInt(cipherString.substring(i, i+2));
+                // ASCII number transform to letter
                 char character = (char) asciiNumberOfLetter;
+                // to output add letter
                 output = output + character;
+                // increase index
                 i = i + 2;
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
-/*        if (checkEvenNumber(cipherLength)) {
-            while (i < (cipherString.length())) {
-                int asciiNumberOfLetter = Integer.parseInt(cipherString.substring(i, i+2));
-                char character = (char) asciiNumberOfLetter;
-                output = output + character;
-                i = i + 2;
-            }
-        } else {
-            cipherLength
-            Log.e("WARNING:", "NUMBER IS ODD");
-        }*/
+        // return STRING message
         return output;
     }
 
@@ -115,14 +105,14 @@ public final class RSAGeneration {
      * Method for calculate Euler function Phi
      * @param p = prime number P
      * @param q = prime number Q
-     * @return - subtract = calculate difference between p and 1 (n - 1) and (q - 1). Then the numbers are multiplied like (n - 1)*(q - 1)
+     * @return - subtract = calculate difference between p and 1 (p - 1) and (q - 1). Then the numbers are multiplied like (n - 1)*(q - 1)
      */
     public BigInteger calculatePhiN(BigInteger p, BigInteger q) {
         return (p.subtract(BigInteger.ONE)).multiply((q.subtract(BigInteger.ONE)));
     }
 
     /**
-     * Recursive method for calculating GCD (greatest common divisor) = used in method calculateE
+     * Recursive method for calculating GCD (greatest common divisor - největší společný dělitel) = used in method calculateE
      * @param number1 = will be E
      * @param number2 = will be phiN
      * @return number which is divided by another number. What I want is to get number 1 -> it means that these 2 numbers has common divisor 1
@@ -146,19 +136,22 @@ public final class RSAGeneration {
         BigInteger e;
 
         do {
-            // to variable e is set new random BigInteger value with length 128 bits
-            // because it has to be smaller than (p+1) or (q+1) - so it is ok with 128 bits number, because P and Q are 256 bits numbers
+            // to variable E is set new random BigInteger value with length 128 bits
+            // because it has be smaller than Euler function (phiN)
             e = new BigInteger(128, random);
 
             // comparing E number with phiN (Euler function)
             while (e.min(phiN).equals(phiN)) {
 
-                // if minimum from e or phiN is equal phiN then generate new E
+                // (min give me minimum from these 2 values) if minimum from e or phiN is equal phiN then generate new E
                 e = new BigInteger(128, random);
             }
 
             // this algorithm is repeated until the greatest common divisor is equal to 1 - if its not - E is found
+            // E musí být nesoudělné s phiN
         } while (!calculateGCD(e, phiN).equals(BigInteger.ONE));
+
+        // return BigInteger number E
         return e;
     }
 
@@ -169,21 +162,24 @@ public final class RSAGeneration {
      */
     public BigInteger generatePrimeNumber(int bits) {
         Random randomNumber = new Random();
+        // return me prime number from random number and length (bits) of number
         return BigInteger.probablePrime(bits, randomNumber);
     }
 
     /**
      * Method for calculating D parameter - it use extended Euclidean algorithm
-     * @param e
-     * @param n
-     * @return
+     * @param e - BigInteger number
+     * @param n - BigInteger number
+     * @return  - D parameter
      */
     //calculate multiplicative inverse of a%n using the extended euclidean GCD algorithm
     public BigInteger calculateD(BigInteger e, BigInteger n){
 
+        // call extendedEuclideanAlgorithm
         BigInteger [] ans = extendedEuclid(e, n);
 
         // výsledek by měl být větší jak 0 (neměl by být záporný)
+        // result has to be greater than 0
         if (ans[1].compareTo(BigInteger.ZERO) > 0) {
             return ans[1];
         } else {
@@ -191,10 +187,12 @@ public final class RSAGeneration {
         }
     }
 
-    //Calculate d = calculateD(a,N) = ex + ny
+    // Calculate d = calculateD(a,N) = ex + ny
+    // Recursion calling of method
     private static BigInteger [] extendedEuclid (BigInteger e, BigInteger N){
         //vytvorim si pole mezivýsledků o velikosti 3 prvků
         BigInteger [] betweenResult = new BigInteger[3];
+        // two helped variables
         BigInteger ex, ny;
 
         // provede se pouze v posledním zanoření (neboli v nejzanorenejsim kroku celé rekurze)
