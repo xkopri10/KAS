@@ -3,7 +3,10 @@ package com.example.kas_project.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.NestedScrollView;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -12,7 +15,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -50,6 +55,7 @@ public class EncryptActivity extends AppCompatActivity {
     List<ProfileKey> listOfKeys;
     private String nParameter, eParameter, emailEditText;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +66,13 @@ public class EncryptActivity extends AppCompatActivity {
 
         final NestedScrollView view = (NestedScrollView) findViewById(R.id.nestedscrollviewEncrypt);
         view.setNestedScrollingEnabled(true);
+        view.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                hideKeyboard(view);
+                return false;
+            }
+        });
 
         final RSAGeneration rsa = new RSAGeneration();
         final AppUtils utils = new AppUtils();
@@ -75,7 +88,6 @@ public class EncryptActivity extends AppCompatActivity {
         encrzptedMessage = findViewById(R.id.messageedittextEncrypted);
         encryptMessageButton = findViewById(R.id.encryptMessageButton);
         loadButton = findViewById(R.id.loadParametersButtonEncrypt);
-
 
         loadButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,6 +147,19 @@ public class EncryptActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    /**
+     * Method for hiding keyboard when user click outside keyboard
+     * @param view
+     */
+    protected void hideKeyboard(View view) {
+        try {
+            InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            in.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void sendEmail() {

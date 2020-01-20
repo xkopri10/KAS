@@ -51,22 +51,20 @@ public final class RSAGeneration {
     /**
      * Method for converting number to letter helped with ASCII
      * every 2 numbers correspond to decimal letter code in ASCII (that"s why i+2)
-     * NOT ALLOWED characters like: {,},|,~. Because their code is 3 three-digit - this is checked in code
-     *
+     * NOT ALLOWED characters like: {,},|,~.
+     * Because their code is 3 three-digit - this is checked in code
      * @param message = message is in BigInteger number
      * @return : text decrypted message
      */
     public String convertBigIntegerMessageBackToString(BigInteger message) {
         String cipherString = message.toString();
-        int cipherLength = cipherString.length();
-
         String output = "";
-        Log.e("LENGTH of decrypted message", String.valueOf(cipherLength));
         int i = 0;
 
         try {
             while (i < (cipherString.length())) {
-                // first I get 2 numbers (represent one letter) ... substring give me numbers from interval (from i to i+2)
+                // first I get 2 numbers (represent one letter)
+                // substring give me numbers from interval (from i to i+2)
                 int asciiNumberOfLetter = Integer.parseInt(cipherString.substring(i, i+2));
                 // ASCII number transform to letter
                 char character = (char) asciiNumberOfLetter;
@@ -105,19 +103,22 @@ public final class RSAGeneration {
      * Method for calculate Euler function Phi
      * @param p = prime number P
      * @param q = prime number Q
-     * @return - subtract = calculate difference between p and 1 (p - 1) and (q - 1). Then the numbers are multiplied like (n - 1)*(q - 1)
+     * @return - subtract = calculate difference between p and 1 (p - 1) and (q - 1).
+     * Then the numbers are multiplied like (n - 1)*(q - 1)
      */
     public BigInteger calculatePhiN(BigInteger p, BigInteger q) {
         return (p.subtract(BigInteger.ONE)).multiply((q.subtract(BigInteger.ONE)));
     }
 
     /**
-     * Recursive method for calculating GCD (greatest common divisor - největší společný dělitel) = used in method calculateE
+     * Recursive method for calculating GCD
+     * (greatest common divisor - největší společný dělitel) = used in method calculateE
      * @param number1 = will be E
      * @param number2 = will be phiN
-     * @return number which is divided by another number. What I want is to get number 1 -> it means that these 2 numbers has common divisor 1
+     * @return number which is divided by another number.
+     * What I want is to get number 1 -> it means that these 2 numbers has common divisor 1
      */
-    public BigInteger calculateGCD(BigInteger number1, BigInteger number2) {
+    private BigInteger calculateGCD(BigInteger number1, BigInteger number2) {
         if (number2.equals(BigInteger.ZERO)) {
             return number1;
         } else {
@@ -137,18 +138,20 @@ public final class RSAGeneration {
 
         do {
             // to variable E is set new random BigInteger value with length 128 bits
-            // because it has be smaller than Euler function (phiN)
-            e = new BigInteger(128, random);
+            // because it has to be smaller than Euler function (phiN)
+            e = new BigInteger(256, random);
 
             // comparing E number with phiN (Euler function)
             while (e.min(phiN).equals(phiN)) {
 
-                // (min give me minimum from these 2 values) if minimum from e or phiN is equal phiN then generate new E
-                e = new BigInteger(128, random);
+                // (min give me minimum from these 2 values)
+                // if minimum = e or phiN and this is equal phiN then generate new E
+                // (until I give e smaller than phiN)
+                e = new BigInteger(256, random);
             }
 
-            // this algorithm is repeated until the greatest common divisor is equal to 1 - if its not - E is found
-            // E musí být nesoudělné s phiN
+            // this algorithm is repeated until the greatest common divisor is equal to 1
+            // E must be (nesoudělné) with phiN
         } while (!calculateGCD(e, phiN).equals(BigInteger.ONE));
 
         // return BigInteger number E
@@ -172,13 +175,11 @@ public final class RSAGeneration {
      * @param n - BigInteger number
      * @return  - D parameter
      */
-    //calculate multiplicative inverse of a%n using the extended euclidean GCD algorithm
     public BigInteger calculateD(BigInteger e, BigInteger n){
 
         // call extendedEuclideanAlgorithm
         BigInteger [] ans = extendedEuclid(e, n);
 
-        // výsledek by měl být větší jak 0 (neměl by být záporný)
         // result has to be greater than 0
         if (ans[1].compareTo(BigInteger.ZERO) > 0) {
             return ans[1];
@@ -191,17 +192,14 @@ public final class RSAGeneration {
      * Method for extended euclid algorithm
      * @param e - BigInteger value E
      * @param N - BigInteger value N
-     * @return
+     * @return d = calculateD(e,N) = ex + ny
      */
-    // Calculate d = calculateD(a,N) = ex + ny
-    // Recursion calling of method
     private static BigInteger [] extendedEuclid (BigInteger e, BigInteger N){
-        //vytvorim si pole mezivýsledků o velikosti 3 prvků
+        // create array of three between result
         BigInteger [] betweenResult = new BigInteger[3];
         // two helped variables
         BigInteger ex, ny;
-
-        // provede se pouze v posledním zanoření (neboli v nejzanorenejsim kroku celé rekurze)
+        // it is performed only in the last plunge (zanoření)
         if (N.equals(BigInteger.ZERO)) {
             betweenResult[0] = e;
             betweenResult[1] = BigInteger.ONE;
@@ -209,17 +207,14 @@ public final class RSAGeneration {
             return betweenResult;
         }
 
-        // rekurzivne volana funkce - zanori nas až do kroku kdy se N bude rovnat 0
+        // recursive call of function - recursive until N is equal 0
         betweenResult = extendedEuclid (N, e.mod(N));
-
         // changing parameters each other
         ex = betweenResult[1];
         ny = betweenResult[2];
-
         betweenResult[1] = ny;
         BigInteger temp = e.divide(N);
         temp = ny.multiply(temp);
-
         betweenResult[2] = ex.subtract(temp);
 
         return betweenResult;

@@ -111,7 +111,7 @@
                 android:layout_marginEnd="25dp"
                 android:layout_marginStart="25dp"
                 android:layout_marginBottom="25dp"
-                android:text="Allowed only:\n\nIn DECRYPTION SECTION: N, D, Encrypted message parameter Edit Texts paste only NUMBERS.\n\nIn ENCRYPTION SECTION: N and E parameter Edit Texts paste only NUMBERS. In the Message parametr can be paste only text. But no symbols like: {, }, |, ~. Size limitation of the message is XX letters."/>
+                android:text="Allowed only:\n\nIn DECRYPTION SECTION: N, D, Encrypted message parameter Edit Texts paste only NUMBERS.\n\nIn ENCRYPTION SECTION: N and E parameter Edit Texts paste only NUMBERS. In the Message parametr can be paste only text. But no symbols like: {, }, |, ~ and symbols with diacritics.\nSize limitation of the message is 75 letters."/>
 
         </LinearLayout>
 

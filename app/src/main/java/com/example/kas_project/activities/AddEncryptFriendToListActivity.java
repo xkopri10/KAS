@@ -3,11 +3,14 @@ package com.example.kas_project.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.NestedScrollView;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -47,6 +50,13 @@ public class AddEncryptFriendToListActivity extends AppCompatActivity {
 
         final NestedScrollView view = (NestedScrollView) findViewById(R.id.nestedscrollviewAddPerson);
         view.setNestedScrollingEnabled(true);
+        view.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                hideKeyboard(view);
+                return false;
+            }
+        });
 
         final Pattern regex = Pattern.compile("[-+*/#{}()a-zA-Z;,. ]");
 
@@ -74,6 +84,19 @@ public class AddEncryptFriendToListActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    /**
+     * Method for hiding keyboard when user click outside keyboard
+     * @param view
+     */
+    protected void hideKeyboard(View view) {
+        try {
+            InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            in.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
